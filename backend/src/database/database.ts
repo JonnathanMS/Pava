@@ -3,10 +3,10 @@ import { Dialect } from 'sequelize';
 import { Category } from '../models/categorieModel';
 import { Product } from '../models/productModel';
 
-const DBNAME = process.env.DBNAME || 'pava';
+const DBNAME = process.env.DBNAME || 'pavadb';
 const DBUSER = process.env.DBUSER || 'root';
 const DBHOST = process.env.DBHOST || 'localhost';
-const DBPASSWORD = process.env.DBPASSWORD || 'marmot721';
+const DBPASSWORD = process.env.DBPASSWORD || 'password123';
 const dbDriver: Dialect = 'mysql';
 
 // Inicialización de sequelize 
