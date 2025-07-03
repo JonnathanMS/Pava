@@ -30,11 +30,18 @@ LISTA DE PRODUCTOS:
 ![Vista de categorias](frontend/public/images/categorias.png)
 
 
+Vista de Workbench:
+![Vista](frontend/public/images/bd.png)
+
+
 En el backend los endpoints son:
 
 con products o categories:
 
 Get: http://localhost:5001/api/products
+
+Vista de ThunderClient:
+![Vista](frontend/public/images/get.png)
 
 Get: http://localhost:5001/api/categories/1
 
@@ -47,6 +54,9 @@ con el body
   "category_id":"1"
 }
 
+Vista de ThunderClient:
+![Vista](frontend/public/images/post.png)
+
 Put: http://localhost:5001/api/products/4
 con el body
 {
@@ -55,5 +65,13 @@ con el body
   "price":1500,
   "category_id":"1"
 }
+Vista de ThunderClient:
+![Vista](frontend/public/images/put.png)
 
 Delete:http://localhost:5001/api/products/1
+
+Vista de ThunderClient:
+![Vista](frontend/public/images/delete.png)
+
+
+
