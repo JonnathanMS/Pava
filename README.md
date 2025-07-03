@@ -27,7 +27,7 @@ LISTA DE CATEGORIAS:
 ![Vista de categorias](frontend/public/images/categorias.png)
 
 LISTA DE PRODUCTOS:
-![Vista de categorias](frontend/public/images/categorias.png)
+![Vista de productos](frontend/public/images/productos.png)
 
 
 Vista de Workbench:
