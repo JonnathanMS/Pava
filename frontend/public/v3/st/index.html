@@ -1,0 +1,1863 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width"
+    />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="stylesheet" href="css/leaflet.css" />
+    <link rel="stylesheet" href="css/L.Control.Locate.min.css" />
+    <link rel="stylesheet" href="css/qgis2web.css" />
+    <link rel="stylesheet" href="css/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="css/leaflet-search.css" />
+    <link rel="stylesheet" href="css/filter.css" />
+    <link rel="stylesheet" href="css/nouislider.min.css" />
+    <style>
+      html,
+      body,
+      #map {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+    </style>
+    <title>Sitios de Interés Medellín</title>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script src="js/qgis2web_expressions.js"></script>
+    <script src="js/leaflet.js"></script>
+    <script src="js/L.Control.Locate.min.js"></script>
+    <script src="js/leaflet.rotatedMarker.js"></script>
+    <script src="js/leaflet.pattern.js"></script>
+    <script src="js/leaflet-hash.js"></script>
+    <script src="js/Autolinker.min.js"></script>
+    <script src="js/rbush.min.js"></script>
+    <script src="js/labelgun.min.js"></script>
+    <script src="js/labels.js"></script>
+    <script src="js/leaflet-search.js"></script>
+    <script src="js/tailDT.js"></script>
+    <script src="js/nouislider.min.js"></script>
+    <script src="js/wNumb.js"></script>
+    <script src="data/COMUNASYCORREGIMIENTOS_2.js"></script>
+    <script src="data/SITIOSDEINTERS_3_copia.js"></script>
+    <script>
+      var map = L.map("map", {
+        zoomControl: true,
+        maxZoom: 27,
+        minZoom: 1,
+      });
+      var hash = new L.Hash(map);
+      map.attributionControl.setPrefix(
+        '<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>'
+      );
+      var autolinker = new Autolinker({
+        truncate: { length: 30, location: "smart" },
+      });
+      L.control.locate({ locateOptions: { maxZoom: 19 } }).addTo(map);
+      var bounds_group = new L.featureGroup([]);
+      function setBounds() {
+        if (bounds_group.getLayers().length) {
+          map.fitBounds(bounds_group.getBounds());
+        }
+      }
+      map.createPane("pane_GoogleSatelliteHybrid_0");
+      map.getPane("pane_GoogleSatelliteHybrid_0").style.zIndex = 400;
+      var layer_GoogleSatelliteHybrid_0 = L.tileLayer(
+        "https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
+        {
+          pane: "pane_GoogleSatelliteHybrid_0",
+          opacity: 1.0,
+          attribution: "",
+          minZoom: 1,
+          maxZoom: 27,
+          minNativeZoom: 0,
+          maxNativeZoom: 19,
+        }
+      );
+      layer_GoogleSatelliteHybrid_0;
+      map.addLayer(layer_GoogleSatelliteHybrid_0);
+      map.createPane("pane_GoogleMaps_1");
+      map.getPane("pane_GoogleMaps_1").style.zIndex = 401;
+      var layer_GoogleMaps_1 = L.tileLayer(
+        "https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
+        {
+          pane: "pane_GoogleMaps_1",
+          opacity: 1.0,
+          attribution: "",
+          minZoom: 1,
+          maxZoom: 27,
+          minNativeZoom: 0,
+          maxNativeZoom: 19,
+        }
+      );
+      layer_GoogleMaps_1;
+      map.addLayer(layer_GoogleMaps_1);
+      function pop_COMUNASYCORREGIMIENTOS_2(feature, layer) {
+        var popupContent =
+          '<table style="color:#FFFFFF">\
+                    <tr>\
+                        <th scope="row">CODIGO</th>\
+                        <td>' +
+          (feature.properties["CODIGO"] !== null
+            ? autolinker.link(feature.properties["CODIGO"].toLocaleString())
+            : "") +
+          '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">NOMBRE</th>\
+                        <td>' +
+          (feature.properties["NOMBRE"] !== null
+            ? autolinker.link(feature.properties["NOMBRE"].toLocaleString())
+            : "") +
+          "</td>\
+                    </tr>\
+                </table>";
+        layer.bindPopup(popupContent, { maxHeight: 400 });
+      }
+
+      function style_COMUNASYCORREGIMIENTOS_2_0(feature) {
+        switch (String(feature.properties["NOMBRE"])) {
+          case "00 Sin número de Asignación":
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(122,4,3,0.6)",
+              interactive: true,
+            };
+            break;
+          case "Altavista Corr. 70":
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(31,120,180,0.6)",
+              interactive: true,
+            };
+            break;
+          case "Aranjuez Comu. 04":
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(189,32,2,0.6)",
+              interactive: true,
+            };
+            break;
+          case "Belén Comu. 16":
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(214,53,6,0.6)",
+              interactive: true,
+            };
+            break;
+          case "Buenos Aires Comu. 09":
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(233,77,13,0.6)",
+              interactive: true,
+            };
+            break;
+          case "Castilla Comu. 05":
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(246,109,25,0.6)",
+              interactive: true,
+            };
+            break;
+          case "Doce de Octubre Comu. 06":
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(254,143,41,0.6)",
+              interactive: true,
+            };
+            break;
+          case "El Poblado Comu. 14":
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(253,175,53,0.6)",
+              interactive: true,
+            };
+            break;
+          case "Guayabal Comu. 15":
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(242,201,58,0.6)",
+              interactive: true,
+            };
+            break;
+          case "La América Comu. 12":
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(222,224,55,0.6)",
+              interactive: true,
+            };
+            break;
+          case "La Candelaria Comu. 10":
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(194,242,52,0.6)",
+              interactive: true,
+            };
+            break;
+          case "Laureles Estadio Comu. 11":
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(164,252,60,0.6)",
+              interactive: true,
+            };
+            break;
+          case "Manrique Comu. 03":
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(126,255,85,0.6)",
+              interactive: true,
+            };
+            break;
+          case "Popular Comu. 01":
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(81,250,123,0.6)",
+              interactive: true,
+            };
+            break;
+          case "Robledo Comu. 07":
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(42,239,161,0.6)",
+              interactive: true,
+            };
+            break;
+          case "San Antonio de Prado Corr. 80":
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(24,223,191,0.6)",
+              interactive: true,
+            };
+            break;
+          case "San Cristóbal Corr. 60":
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(31,201,221,0.6)",
+              interactive: true,
+            };
+            break;
+          case "San Javier Comu. 13":
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(255,127,0,0.6)",
+              interactive: true,
+            };
+            break;
+          case "San Sebastián de Palmitas Corr. 50":
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(67,144,254,0.6)",
+              interactive: true,
+            };
+            break;
+          case "Santa Cruz Comu. 02":
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(240,249,33,0.6)",
+              interactive: true,
+            };
+            break;
+          case "Santa Elena Corr. 90":
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(68,85,196,0.6)",
+              interactive: true,
+            };
+            break;
+          case "Villa Hermosa Comu. 08":
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(207,16,19,0.6)",
+              interactive: true,
+            };
+            break;
+          default:
+            return {
+              pane: "pane_COMUNASYCORREGIMIENTOS_2",
+              opacity: 1,
+              color: "rgba(35,35,35,0.6)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1.0,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(48,18,59,0.6)",
+              interactive: true,
+            };
+            break;
+        }
+      }
+      map.createPane("pane_COMUNASYCORREGIMIENTOS_2");
+      map.getPane("pane_COMUNASYCORREGIMIENTOS_2").style.zIndex = 402;
+      map.getPane("pane_COMUNASYCORREGIMIENTOS_2").style["mix-blend-mode"] =
+        "normal";
+      var layer_COMUNASYCORREGIMIENTOS_2 = new L.geoJson(
+        json_COMUNASYCORREGIMIENTOS_2,
+        {
+          attribution: "",
+          interactive: true,
+          dataVar: "json_COMUNASYCORREGIMIENTOS_2",
+          layerName: "layer_COMUNASYCORREGIMIENTOS_2",
+          pane: "pane_COMUNASYCORREGIMIENTOS_2",
+          onEachFeature: pop_COMUNASYCORREGIMIENTOS_2,
+          style: style_COMUNASYCORREGIMIENTOS_2_0,
+        }
+      );
+      bounds_group.addLayer(layer_COMUNASYCORREGIMIENTOS_2);
+      map.addLayer(layer_COMUNASYCORREGIMIENTOS_2);
+      function pop_SITIOSDEINTERS_3(feature, layer) {
+        var popupContent =
+          "<center>" +
+          (feature.properties["img"] !== null
+            ? autolinker.link(feature.properties["img"].toLocaleString())
+            : "") +
+          '</center><table style="color:#FFFFFF">\
+                    <tr>\
+                        <th scope="row">LUGAR</th>\
+                        <td>' +
+          (feature.properties["LUGAR"] !== null
+            ? autolinker.link(feature.properties["LUGAR"].toLocaleString())
+            : "") +
+          '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">IMPERDIBLE</th>\
+                        <td>' +
+          (feature.properties["IMPERDIBLE"] !== null
+            ? autolinker.link(feature.properties["IMPERDIBLE"].toLocaleString())
+            : "") +
+          '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">TIPO</th>\
+                        <td>' +
+          (feature.properties["TIPO"] !== null
+            ? autolinker.link(feature.properties["TIPO"].toLocaleString())
+            : "") +
+          '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">DIRECCION</th>\
+                        <td>' +
+          (feature.properties["DIRECCION"] !== null
+            ? autolinker.link(feature.properties["DIRECCION"].toLocaleString())
+            : "") +
+          '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">BARRIO</th>\
+                        <td>' +
+          (feature.properties["BARRIO"] !== null
+            ? autolinker.link(feature.properties["BARRIO"].toLocaleString())
+            : "") +
+          "</td>\
+                    </tr>\
+                </table><center><a href='https://wa.me/573022264607?text=Hola%20me%20interesa%20tu%20trabajo!' target='_blank' rel='noreferrer'><button class='agendar'>Agendar</button></a></center>";
+                
+        layer.bindPopup(popupContent, { maxHeight: 400 });
+      }
+
+      function style_SITIOSDEINTERS_3_0(feature) {
+        switch (String(feature.properties["TIPO"])) {
+          case "Aeropuerto de pasajeros":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(48,18,59,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Áreas con declaratorias departamentales":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(57,43,117,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Avenida y calle":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(65,66,165,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Basí­lica":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(69,88,202,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Biblioteca":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(71,110,230,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Catedral":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(70,131,249,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Cementerio":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(64,152,255,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Centro administrativo":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(51,173,247,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Centro de formación cultural":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(37,192,231,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Cerro":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(26,211,209,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Claustro":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(25,225,188,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Convento":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(37,236,167,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Escultura":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(60,245,142,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Estación de ferrocarril":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(90,251,114,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Estadio":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(123,255,87,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Estatua":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(153,254,66,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Fuente":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(175,250,55,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Iglesia":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(196,241,52,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Jardí­n botánico":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(216,228,54,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Monumento":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(233,213,57,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Museo":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(245,197,58,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Otro":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(252,178,54,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Parque temático y recreativo":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(254,156,46,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Parque urbano":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(252,132,35,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Planetario":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(246,107,25,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Plaza":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(237,84,16,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Plaza de mercado":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(225,66,9,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Plaza de toros":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(210,49,5,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Sala múltiple":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(192,35,2,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Sector urbano o rural de interés":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(171,23,1,1.0)",
+              interactive: true,
+            };
+            break;
+          case "Teatro":
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(147,12,1,1.0)",
+              interactive: true,
+            };
+            break;
+          default:
+            return {
+              pane: "pane_SITIOSDEINTERS_3",
+              radius: 4.0,
+              opacity: 1,
+              color: "rgba(35,35,35,1.0)",
+              dashArray: "",
+              lineCap: "butt",
+              lineJoin: "miter",
+              weight: 1,
+              fill: true,
+              fillOpacity: 1,
+              fillColor: "rgba(122,4,3,1.0)",
+              interactive: true,
+            };
+            break;
+        }
+      }
+      map.createPane("pane_SITIOSDEINTERS_3");
+      map.getPane("pane_SITIOSDEINTERS_3").style.zIndex = 403;
+      map.getPane("pane_SITIOSDEINTERS_3").style["mix-blend-mode"] = "normal";
+      var layer_SITIOSDEINTERS_3 = new L.geoJson(json_SITIOSDEINTERS_3, {
+        attribution: "",
+        interactive: true,
+        dataVar: "json_SITIOSDEINTERS_3",
+        layerName: "layer_SITIOSDEINTERS_3",
+        pane: "pane_SITIOSDEINTERS_3",
+        onEachFeature: pop_SITIOSDEINTERS_3,
+        pointToLayer: function (feature, latlng) {
+          var context = {
+            feature: feature,
+            variables: {},
+          };
+          return L.circleMarker(latlng, style_SITIOSDEINTERS_3_0(feature));
+        },
+      });
+      bounds_group.addLayer(layer_SITIOSDEINTERS_3);
+      map.addLayer(layer_SITIOSDEINTERS_3);
+      var title = new L.Control();
+      title.onAdd = function (map) {
+        this._div = L.DomUtil.create("div", "info");
+        this.update();
+        return this._div;
+      };
+      title.update = function () {
+        this._div.innerHTML =
+          "<h2>SITIOS DE INTERES DEL DISTRITO DE MEDELLIN</h2>";
+      };
+      title.addTo(map);
+      var baseMaps = {};
+      L.control
+        .layers(baseMaps, {
+          'SITIOS DE INTERÉS<br /><table style="color:#FFFFFF"><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Aeropuertodepasajeros0.png" /></td><td>Aeropuerto de pasajeros</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Áreascondeclaratoriasdepartamentales1.png" /></td><td>Áreas con declaratorias departamentales</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Avenidaycalle2.png" /></td><td>Avenida y calle</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Basílica3.png" /></td><td>Basí­lica</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Biblioteca4.png" /></td><td>Biblioteca</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Catedral5.png" /></td><td>Catedral</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Cementerio6.png" /></td><td>Cementerio</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Centroadministrativo7.png" /></td><td>Centro administrativo</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Centrodeformacióncultural8.png" /></td><td>Centro de formación cultural</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Cerro9.png" /></td><td>Cerro</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Claustro10.png" /></td><td>Claustro</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Convento11.png" /></td><td>Convento</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Escultura12.png" /></td><td>Escultura</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Estacióndeferrocarril13.png" /></td><td>Estación de ferrocarril</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Estadio14.png" /></td><td>Estadio</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Estatua15.png" /></td><td>Estatua</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Fuente16.png" /></td><td>Fuente</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Iglesia17.png" /></td><td>Iglesia</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Jardínbotánico18.png" /></td><td>Jardí­n botánico</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Monumento19.png" /></td><td>Monumento</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Museo20.png" /></td><td>Museo</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Otro21.png" /></td><td>Otro</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Parquetemáticoyrecreativo22.png" /></td><td>Parque temático y recreativo</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Parqueurbano23.png" /></td><td>Parque urbano</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Planetario24.png" /></td><td>Planetario</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Plaza25.png" /></td><td>Plaza</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Plazademercado26.png" /></td><td>Plaza de mercado</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Plazadetoros27.png" /></td><td>Plaza de toros</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Salamúltiple28.png" /></td><td>Sala múltiple</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Sectorurbanooruraldeinterés29.png" /></td><td>Sector urbano o rural de interés</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_Teatro30.png" /></td><td>Teatro</td></tr><tr><td style="text-align: center;"><img src="legend/SITIOSDEINTERS_3_31.png" /></td><td></td></tr></table>':
+            layer_SITIOSDEINTERS_3,
+          'COMUNAS Y CORREGIMIENTOS<br /><table style="color:#FFFFFF"><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_00SinnúmerodeAsignación0.png" /></td><td>00 Sin número de Asignación</td></tr><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_AltavistaCorr701.png" /></td><td>Altavista Corr. 70</td></tr><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_AranjuezComu042.png" /></td><td>Aranjuez Comu. 04</td></tr><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_BelénComu163.png" /></td><td>Belén Comu. 16</td></tr><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_BuenosAiresComu094.png" /></td><td>Buenos Aires Comu. 09</td></tr><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_CastillaComu055.png" /></td><td>Castilla Comu. 05</td></tr><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_DocedeOctubreComu066.png" /></td><td>Doce de Octubre Comu. 06</td></tr><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_ElPobladoComu147.png" /></td><td>El Poblado Comu. 14</td></tr><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_GuayabalComu158.png" /></td><td>Guayabal Comu. 15</td></tr><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_LaAméricaComu129.png" /></td><td>La América Comu. 12</td></tr><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_LaCandelariaComu1010.png" /></td><td>La Candelaria Comu. 10</td></tr><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_LaurelesEstadioComu1111.png" /></td><td>Laureles Estadio Comu. 11</td></tr><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_ManriqueComu0312.png" /></td><td>Manrique Comu. 03</td></tr><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_PopularComu0113.png" /></td><td>Popular Comu. 01</td></tr><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_RobledoComu0714.png" /></td><td>Robledo Comu. 07</td></tr><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_SanAntoniodePradoCorr8015.png" /></td><td>San Antonio de Prado Corr. 80</td></tr><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_SanCristóbalCorr6016.png" /></td><td>San Cristóbal Corr. 60</td></tr><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_SanJavierComu1317.png" /></td><td>San Javier Comu. 13</td></tr><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_SanSebastiándePalmitasCorr5018.png" /></td><td>San Sebastián de Palmitas Corr. 50</td></tr><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_SantaCruzComu0219.png" /></td><td>Santa Cruz Comu. 02</td></tr><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_SantaElenaCorr9020.png" /></td><td>Santa Elena Corr. 90</td></tr><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_VillaHermosaComu0821.png" /></td><td>Villa Hermosa Comu. 08</td></tr><tr><td style="text-align: center;"><img src="legend/COMUNASYCORREGIMIENTOS_2_22.png" /></td><td></td></tr></table>':
+            layer_COMUNASYCORREGIMIENTOS_2,
+          "Google Maps": layer_GoogleMaps_1,
+          "Google Satellite Hybrid": layer_GoogleSatelliteHybrid_0,
+        })
+        .addTo(map);
+      setBounds();
+      var i = 0;
+      layer_COMUNASYCORREGIMIENTOS_2.eachLayer(function (layer) {
+        var context = {
+          feature: layer.feature,
+          variables: {},
+        };
+        layer.bindTooltip(
+          layer.feature.properties["NOMBRE"] !== null
+            ? String(
+                "<div style=\"color: #000000; font-size: 7pt; font-family: 'Open Sans', sans-serif;\">" +
+                  layer.feature.properties["NOMBRE"]
+              ) + "</div>"
+            : "",
+          {
+            permanent: true,
+            offset: [-0, -16],
+            className: "css_COMUNASYCORREGIMIENTOS_2",
+          }
+        );
+        labels.push(layer);
+        totalMarkers += 1;
+        layer.added = true;
+        addLabel(layer, i);
+        i++;
+      });
+      map.addControl(
+        new L.Control.Search({
+          layer: layer_SITIOSDEINTERS_3,
+          initial: false,
+          hideMarkerOnCollapse: true,
+          propertyName: "LUGAR",
+        })
+      );
+      document.getElementsByClassName("search-button")[0].className +=
+        " fa fa-binoculars";
+      var mapDiv = document.getElementById("map");
+      var row = document.createElement("div");
+      row.className = "row";
+      row.id = "all";
+      row.style.height = "100%";
+      var col1 = document.createElement("div");
+      col1.className = "col9";
+      col1.id = "mapWindow";
+      col1.style.height = "99%";
+      col1.style.width = "80%";
+      col1.style.display = "inline-block";
+      var col2 = document.createElement("div");
+      col2.className = "col3";
+      col2.id = "menu";
+      col2.style.display = "inline-block";
+      mapDiv.parentNode.insertBefore(row, mapDiv);
+      document.getElementById("all").appendChild(col1);
+      document.getElementById("all").appendChild(col2);
+      col1.appendChild(mapDiv);
+      var Filters = {
+        NOMBRE: "str",
+        LUGAR: "str",
+        BARRIO: "str",
+        IMPERDIBLE: "str",
+        TIPO: "str",
+      };
+      function Reestablec() {
+        sel_NOMBRE.multiple = true;
+        sel_NOMBRE.size = 3;
+        sel_NOMBRE.id = "sel_NOMBRE";
+        sel_LUGAR.multiple = true;
+        sel_LUGAR.size = 3;
+        sel_LUGAR.id = "sel_LUGAR";
+        sel_BARRIO.multiple = true;
+        sel_BARRIO.size = 3;
+        sel_IMPERDIBLE.multiple = true;
+        sel_IMPERDIBLE.size = 2;
+        sel_TIPO.multiple = true;
+        sel_TIPO.size = 3;
+      }
+      function filterFunc() {
+        map.eachLayer(function (lyr) {
+          if ("options" in lyr && "dataVar" in lyr["options"]) {
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try {
+              for (key in Filters) {
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "");
+                if (Filters[key] == "str" || Filters[key] == "bool") {
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options;
+                  for (var i = 0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                  try {
+                    if (key in features[0].properties) {
+                      for (i = features.length - 1; i >= 0; --i) {
+                        if (
+                          selection.indexOf(features[i].properties[key]) < 0 &&
+                          selection.length > 0
+                        ) {
+                          features.splice(i, 1);
+                        }
+                      }
+                    }
+                  } catch (err) {}
+                }
+                if (Filters[key] == "int") {
+                  sliderVals = document
+                    .getElementById("div_" + keyS)
+                    .noUiSlider.get();
+                  try {
+                    if (key in features[0].properties) {
+                      for (i = features.length - 1; i >= 0; --i) {
+                        if (
+                          parseInt(features[i].properties[key]) <
+                            sliderVals[0] ||
+                          parseInt(features[i].properties[key]) > sliderVals[1]
+                        ) {
+                          features.splice(i, 1);
+                        }
+                      }
+                    }
+                  } catch (err) {}
+                }
+                if (Filters[key] == "real") {
+                  sliderVals = document
+                    .getElementById("div_" + keyS)
+                    .noUiSlider.get();
+                  try {
+                    if (key in features[0].properties) {
+                      for (i = features.length - 1; i >= 0; --i) {
+                        if (
+                          features[i].properties[key] < sliderVals[0] ||
+                          features[i].properties[key] > sliderVals[1]
+                        ) {
+                          features.splice(i, 1);
+                        }
+                      }
+                    }
+                  } catch (err) {}
+                }
+                if (
+                  Filters[key] == "date" ||
+                  Filters[key] == "datetime" ||
+                  Filters[key] == "time"
+                ) {
+                  try {
+                    if (key in features[0].properties) {
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, "");
+                      startdate = document
+                        .getElementById("dat_" + HTMLkey + "_date1")
+                        .value.replace(" ", "T");
+                      enddate = document
+                        .getElementById("dat_" + HTMLkey + "_date2")
+                        .value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i) {
+                        if (
+                          features[i].properties[key] < startdate ||
+                          features[i].properties[key] > enddate
+                        ) {
+                          features.splice(i, 1);
+                        }
+                      }
+                    }
+                  } catch (err) {}
+                }
+              }
+            } catch (err) {}
+            console.log("Lyr a borrar:", this[lyr["options"]["layerName"]]);
+            this[lyr["options"]["layerName"]].clearLayers();
+            this[lyr["options"]["layerName"]].addData(features);
+            var i = 0;
+            layer_COMUNASYCORREGIMIENTOS_2.eachLayer(function (layer) {
+              var context = {
+                feature: layer.feature,
+                variables: {},
+              };
+              layer.bindTooltip(
+                layer.feature.properties["NOMBRE"] !== null
+                  ? String(
+                      "<div style=\"color: #000000; font-size: 7pt; font-family: 'Open Sans', sans-serif;\">" +
+                        layer.feature.properties["NOMBRE"]
+                    ) + "</div>"
+                  : "",
+                {
+                  permanent: true,
+                  offset: [-0, -16],
+                  className: "css_COMUNASYCORREGIMIENTOS_2",
+                }
+              );
+              labels.push(layer);
+              totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+            });
+          }
+        });
+      }
+      document
+        .getElementById("menu")
+        .appendChild(document.createElement("div"));
+      var div_NOMBRE = document.createElement("div");
+      div_NOMBRE.id = "div_NOMBRE";
+      div_NOMBRE.className = "filterselect";
+      document.getElementById("menu").appendChild(div_NOMBRE);
+      sel_NOMBRE = document.createElement("select");
+      sel_NOMBRE.multiple = true;
+      sel_NOMBRE.size = 3;
+      //   sel_NOMBRE.multiple = false;
+      //   sel_NOMBRE.size = 1;
+      sel_NOMBRE.id = "sel_NOMBRE";
+      var NOMBRE_options_str = "<option value='' unselected>Ninguno</option>";
+      sel_NOMBRE.onchange = function () {
+        // Reestablec();
+        // setTimeout(() => {
+        //   filterFunc();
+        // }, 2000);
+        filterFunc();
+      };
+      NOMBRE_options_str +=
+        '<option value="00 Sin número de Asignación">00 Sin número de Asignación</option>';
+      NOMBRE_options_str +=
+        '<option value="Altavista Corr. 70">Altavista Corr. 70</option>';
+      NOMBRE_options_str +=
+        '<option value="Aranjuez Comu. 04">Aranjuez Comu. 04</option>';
+      NOMBRE_options_str +=
+        '<option value="Belén Comu. 16">Belén Comu. 16</option>';
+      NOMBRE_options_str +=
+        '<option value="Buenos Aires Comu. 09">Buenos Aires Comu. 09</option>';
+      NOMBRE_options_str +=
+        '<option value="Castilla Comu. 05">Castilla Comu. 05</option>';
+      NOMBRE_options_str +=
+        '<option value="Doce de Octubre Comu. 06">Doce de Octubre Comu. 06</option>';
+      NOMBRE_options_str +=
+        '<option value="El Poblado Comu. 14">El Poblado Comu. 14</option>';
+      NOMBRE_options_str +=
+        '<option value="Guayabal Comu. 15">Guayabal Comu. 15</option>';
+      NOMBRE_options_str +=
+        '<option value="La América Comu. 12">La América Comu. 12</option>';
+      NOMBRE_options_str +=
+        '<option value="La Candelaria Comu. 10">La Candelaria Comu. 10</option>';
+      NOMBRE_options_str +=
+        '<option value="Laureles Estadio Comu. 11">Laureles Estadio Comu. 11</option>';
+      NOMBRE_options_str +=
+        '<option value="Manrique Comu. 03">Manrique Comu. 03</option>';
+      NOMBRE_options_str +=
+        '<option value="Popular Comu. 01">Popular Comu. 01</option>';
+      NOMBRE_options_str +=
+        '<option value="Robledo Comu. 07">Robledo Comu. 07</option>';
+      NOMBRE_options_str +=
+        '<option value="San Antonio de Prado Corr. 80">San Antonio de Prado Corr. 80</option>';
+      NOMBRE_options_str +=
+        '<option value="San Cristóbal Corr. 60">San Cristóbal Corr. 60</option>';
+      NOMBRE_options_str +=
+        '<option value="San Javier Comu. 13">San Javier Comu. 13</option>';
+      NOMBRE_options_str +=
+        '<option value="San Sebastián de Palmitas Corr. 50">San Sebastián de Palmitas Corr. 50</option>';
+      NOMBRE_options_str +=
+        '<option value="Santa Cruz Comu. 02">Santa Cruz Comu. 02</option>';
+      NOMBRE_options_str +=
+        '<option value="Santa Elena Corr. 90">Santa Elena Corr. 90</option>';
+      NOMBRE_options_str +=
+        '<option value="Villa Hermosa Comu. 08">Villa Hermosa Comu. 08</option>';
+
+      var lab_NOMBRE = document.createElement("div");
+      //   var reset_NOMBRE = document.createElement("div");
+      lab_NOMBRE.innerHTML = "NOMBRE &nbsp;&nbsp;&nbsp(Reiniciar-filtro)";
+      lab_NOMBRE.className = "filterlabel";
+      //   reset_NOMBRE.innerHTML = "clear filter";
+      //   reset_NOMBRE.className = "filterlabel";
+      div_NOMBRE.appendChild(lab_NOMBRE);
+      //   div_NOMBRE.appendChild(reset_NOMBRE);
+      sel_NOMBRE.innerHTML = NOMBRE_options_str;
+      div_NOMBRE.appendChild(sel_NOMBRE);
+
+      lab_NOMBRE.onclick = function () {
+        var options = document.getElementById("sel_NOMBRE").options;
+        console.log("options de reset_nombre:", options);
+        for (var i = 0; i < options.length; i++) {
+          options[i].selected = false;
+        }
+        // Reestablec();
+        // setTimeout(() => {
+        //   filterFunc();
+        // }, 2000);
+        filterFunc();
+      };
+      document
+        .getElementById("menu")
+        .appendChild(document.createElement("div"));
+      var div_LUGAR = document.createElement("div");
+      div_LUGAR.id = "div_LUGAR";
+      div_LUGAR.className = "filterselect";
+      document.getElementById("menu").appendChild(div_LUGAR);
+      sel_LUGAR = document.createElement("select");
+      sel_LUGAR.multiple = true;
+      sel_LUGAR.size = 3;
+      //   sel_LUGAR.multiple = false;
+      //   sel_LUGAR.size = 1;
+      sel_LUGAR.id = "sel_LUGAR";
+      var LUGAR_options_str = "<option value='' unselected>Ninguno</option>";
+      sel_LUGAR.onchange = function () {
+        // Reestablec();
+        // setTimeout(() => {
+        //   filterFunc();
+        // }, 2000);
+        filterFunc();
+      };
+      LUGAR_options_str +=
+        '<option value="Aeroparque Parque Juan Pablo II">Aeroparque Parque Juan Pablo II</option>';
+      LUGAR_options_str +=
+        '<option value="Aeropuerto Enrique Olaya Herrera">Aeropuerto Enrique Olaya Herrera</option>';
+      LUGAR_options_str += '<option value="Barrio Prado">Barrio Prado</option>';
+      LUGAR_options_str +=
+        '<option value="Basí­lica Menor Nuestra Señora de la Candelaria">Basí­lica Menor Nuestra Señora de la Candelaria</option>';
+      LUGAR_options_str +=
+        '<option value="Bulevar Libertadores de América">Bulevar Libertadores de América</option>';
+      LUGAR_options_str +=
+        '<option value="Calle de la Buena Mesa">Calle de la Buena Mesa</option>';
+      LUGAR_options_str +=
+        '<option value="Casa Museo Maestro Pedro Nel Gómez">Casa Museo Maestro Pedro Nel Gómez</option>';
+      LUGAR_options_str +=
+        '<option value="Casa de Música El Jordán">Casa de Música El Jordán</option>';
+      LUGAR_options_str +=
+        '<option value="Casa de la Lectura Infantil">Casa de la Lectura Infantil</option>';
+      LUGAR_options_str +=
+        '<option value="Catedral Basí­lica Metropolitana de la Inmaculada Concepción de Marí­a">Catedral Basí­lica Metropolitana de la Inmaculada Concepción de Marí­a</option>';
+      LUGAR_options_str +=
+        '<option value="Cementerio San Lorenzo">Cementerio San Lorenzo</option>';
+      LUGAR_options_str +=
+        '<option value="Centro Administrativo José Marí­a Córdoba">Centro Administrativo José Marí­a Córdoba</option>';
+      LUGAR_options_str +=
+        '<option value="Centro Comercial Palacio Nacional">Centro Comercial Palacio Nacional</option>';
+      LUGAR_options_str +=
+        '<option value="Centro de Desarrollo Cultural de Moravia">Centro de Desarrollo Cultural de Moravia</option>';
+      LUGAR_options_str +=
+        '<option value="Centro de Espectáculos La Macarena">Centro de Espectáculos La Macarena</option>';
+      LUGAR_options_str +=
+        '<option value="Cerro Pan de Azúcar">Cerro Pan de Azúcar</option>';
+      LUGAR_options_str +=
+        '<option value="Complejo Arquitecténico Claustro San Ignacio">Complejo Arquitecténico Claustro San Ignacio</option>';
+      LUGAR_options_str +=
+        '<option value="Conjunto de Esculturas de Botero">Conjunto de Esculturas de Botero</option>';
+      LUGAR_options_str +=
+        '<option value="Ecoparque Cerro Picacho">Ecoparque Cerro Picacho</option>';
+      LUGAR_options_str +=
+        '<option value="Edificio Antigua Estación Medellí­n">Edificio Antigua Estación Medellí­n</option>';
+      LUGAR_options_str +=
+        '<option value="Edificio Carré">Edificio Carré</option>';
+      LUGAR_options_str +=
+        '<option value="Edificio Coltejer">Edificio Coltejer</option>';
+      LUGAR_options_str +=
+        '<option value="Edificio Inteligente Empresas Públicas de Medellí­n">Edificio Inteligente Empresas Públicas de Medellí­n</option>';
+      LUGAR_options_str +=
+        '<option value="Edificio Vásquez">Edificio Vásquez</option>';
+      LUGAR_options_str +=
+        '<option value="Escaleras Eléctricas Comuna 13">Escaleras Eléctricas Comuna 13</option>';
+      LUGAR_options_str +=
+        '<option value="Escultura Cacique Nutibara">Escultura Cacique Nutibara</option>';
+      LUGAR_options_str +=
+        '<option value="Escultura La Gorda de Botero">Escultura La Gorda de Botero</option>';
+      LUGAR_options_str +=
+        '<option value="Estatua a Simón Bolí­var">Estatua a Simón Bolí­var</option>';
+      LUGAR_options_str +=
+        '<option value="Fuente Cacique de Nutibara">Fuente Cacique de Nutibara</option>';
+      LUGAR_options_str +=
+        '<option value="Iglesia Jesús de Nazareno">Iglesia Jesús de Nazareno</option>';
+      LUGAR_options_str +=
+        '<option value="Iglesia La Veracruz">Iglesia La Veracruz</option>';
+      LUGAR_options_str +=
+        '<option value="Iglesia San José de El Poblado">Iglesia San José de El Poblado</option>';
+      LUGAR_options_str +=
+        '<option value="Iglesia de San Antonio">Iglesia de San Antonio</option>';
+      LUGAR_options_str +=
+        '<option value="Jardí­n Botánico Joaquí­n Antonio Uribe">Jardí­n Botánico Joaquí­n Antonio Uribe</option>';
+      LUGAR_options_str +=
+        '<option value="Jardí­n Morro de Moravia">Jardí­n Morro de Moravia</option>';
+      LUGAR_options_str += '<option value="Milla de Oro">Milla de Oro</option>';
+      LUGAR_options_str +=
+        '<option value="Monumento El Pájaro">Monumento El Pájaro</option>';
+      LUGAR_options_str +=
+        '<option value="Monumento Paloma de la Paz">Monumento Paloma de la Paz</option>';
+      LUGAR_options_str +=
+        '<option value="Monumento a Carlos Gardel">Monumento a Carlos Gardel</option>';
+      LUGAR_options_str +=
+        '<option value="Monumento a La Vida">Monumento a La Vida</option>';
+      LUGAR_options_str +=
+        '<option value="Monumento a la Raza">Monumento a la Raza</option>';
+      LUGAR_options_str +=
+        '<option value="Monumento a la Vida">Monumento a la Vida</option>';
+      LUGAR_options_str +=
+        '<option value="Monumento al Tango">Monumento al Tango</option>';
+      LUGAR_options_str +=
+        '<option value="Museo Casa Gardeliana">Museo Casa Gardeliana</option>';
+      LUGAR_options_str +=
+        '<option value="Museo Casa de la Memoria">Museo Casa de la Memoria</option>';
+      LUGAR_options_str +=
+        '<option value="Museo Cementerio San Pedro">Museo Cementerio San Pedro</option>';
+      LUGAR_options_str +=
+        '<option value="Museo El Castillo">Museo El Castillo</option>';
+      LUGAR_options_str +=
+        '<option value="Museo Etnográfico Madre Laura">Museo Etnográfico Madre Laura</option>';
+      LUGAR_options_str +=
+        '<option value="Museo al Aire Libre Acueducto del Siglo XIX">Museo al Aire Libre Acueducto del Siglo XIX</option>';
+      LUGAR_options_str +=
+        '<option value="Museo de Antioquia">Museo de Antioquia</option>';
+      LUGAR_options_str +=
+        '<option value="Museo de Arte Moderno de Medellí­n">Museo de Arte Moderno de Medellí­n</option>';
+      LUGAR_options_str +=
+        '<option value="Museo del Agua">Museo del Agua</option>';
+      LUGAR_options_str +=
+        '<option value="Palacio de Bellas Artes">Palacio de Bellas Artes</option>';
+      LUGAR_options_str +=
+        '<option value="Palacio de la Cultura Rafael Uribe Uribe">Palacio de la Cultura Rafael Uribe Uribe</option>';
+      LUGAR_options_str +=
+        '<option value="Parque Ambiental Bosques de La Frontera">Parque Ambiental Bosques de La Frontera</option>';
+      LUGAR_options_str +=
+        '<option value="Parque Biblioteca España">Parque Biblioteca España</option>';
+      LUGAR_options_str +=
+        '<option value="Parque Explora">Parque Explora</option>';
+      LUGAR_options_str +=
+        '<option value="Parque Lineal La Presidenta">Parque Lineal La Presidenta</option>';
+      LUGAR_options_str +=
+        '<option value="Parque Lleras">Parque Lleras</option>';
+      LUGAR_options_str +=
+        '<option value="Parque Natural Metropolitano Cerro El Volador">Parque Natural Metropolitano Cerro El Volador</option>';
+      LUGAR_options_str +=
+        '<option value="Parque Natural Metropolitano Cerro Nutibara">Parque Natural Metropolitano Cerro Nutibara</option>';
+      LUGAR_options_str +=
+        '<option value="Parque Norte J. Emilio Valderrama">Parque Norte J. Emilio Valderrama</option>';
+      LUGAR_options_str +=
+        '<option value="Parque Regional Ecoturí­stico Arví">Parque Regional Ecoturí­stico Arví</option>';
+      LUGAR_options_str +=
+        '<option value="Parque de Berrí­o">Parque de Berrí­o</option>';
+      LUGAR_options_str +=
+        '<option value="Parque de Bolí­var">Parque de Bolí­var</option>';
+      LUGAR_options_str +=
+        '<option value="Parque de El Poblado">Parque de El Poblado</option>';
+      LUGAR_options_str +=
+        '<option value="Parque de la Conservación">Parque de la Conservación</option>';
+      LUGAR_options_str +=
+        '<option value="Parque de los Deseos">Parque de los Deseos</option>';
+      LUGAR_options_str +=
+        '<option value="Parque de los Pies Descalzos">Parque de los Pies Descalzos</option>';
+      LUGAR_options_str +=
+        '<option value="Paseo Bolí­var">Paseo Bolí­var</option>';
+      LUGAR_options_str +=
+        '<option value="Paseo Peatonal Ayacucho">Paseo Peatonal Ayacucho</option>';
+      LUGAR_options_str +=
+        '<option value="Paseo Peatonal Carabobo">Paseo Peatonal Carabobo</option>';
+      LUGAR_options_str +=
+        '<option value="Paseo Peatonal de Juní­n">Paseo Peatonal de Juní­n</option>';
+      LUGAR_options_str +=
+        '<option value="Paseo Provenza">Paseo Provenza</option>';
+      LUGAR_options_str +=
+        '<option value="Pequeño Teatro">Pequeño Teatro</option>';
+      LUGAR_options_str +=
+        '<option value="Placita de Flórez">Placita de Flórez</option>';
+      LUGAR_options_str +=
+        '<option value="Planetario Municipal de Medellí­n Jesús Emilio Ramí­rez González">Planetario Municipal de Medellí­n Jesús Emilio Ramí­rez González</option>';
+      LUGAR_options_str += '<option value="Plaza Botero">Plaza Botero</option>';
+      LUGAR_options_str +=
+        '<option value="Plaza Cisneros">Plaza Cisneros</option>';
+      LUGAR_options_str += '<option value="Plaza Gardel">Plaza Gardel</option>';
+      LUGAR_options_str +=
+        '<option value="Plaza Mayor Medellí­n Convenciones y Exposiciones">Plaza Mayor Medellí­n Convenciones y Exposiciones</option>';
+      LUGAR_options_str +=
+        '<option value="Plaza Minorista José Marí­a Villa">Plaza Minorista José Marí­a Villa</option>';
+      LUGAR_options_str +=
+        '<option value="Pueblito Paisa">Pueblito Paisa</option>';
+      LUGAR_options_str +=
+        '<option value="Puente de Guayaquil">Puente de Guayaquil</option>';
+      LUGAR_options_str +=
+        '<option value="Santuario Santa Laura Montoya">Santuario Santa Laura Montoya</option>';
+      LUGAR_options_str += '<option value="Teatro Lido">Teatro Lido</option>';
+      LUGAR_options_str +=
+        '<option value="Teatro Metropolitano de Medellí­n José Gutiérrez Gómez">Teatro Metropolitano de Medellí­n José Gutiérrez Gómez</option>';
+      LUGAR_options_str +=
+        '<option value="Teatro Pablo Tobón Uribe">Teatro Pablo Tobón Uribe</option>';
+      LUGAR_options_str +=
+        '<option value="Teatro Prado el Águila Descalza">Teatro Prado el Águila Descalza</option>';
+      LUGAR_options_str +=
+        '<option value="Unidad Deportiva Atanasio Girardot">Unidad Deportiva Atanasio Girardot</option>';
+      LUGAR_options_str +=
+        '<option value="Unidad Deportiva de Belén Andrés Escobar Saldarriaga">Unidad Deportiva de Belén Andrés Escobar Saldarriaga</option>';
+      LUGAR_options_str +=
+        '<option value="Ví­a Primavera">Ví­a Primavera</option>';
+
+      var lab_LUGAR = document.createElement("div");
+      // var reset_LUGAR = document.createElement("div");
+      lab_LUGAR.innerHTML = "LUGAR nbsp;&nbsp;&nbsp(Reiniciar-filtro)";
+      lab_LUGAR.className = "filterlabel";
+
+      sel_LUGAR.innerHTML = LUGAR_options_str;
+      div_LUGAR.appendChild(lab_LUGAR);
+      div_LUGAR.appendChild(sel_LUGAR);
+      //   reset_LUGAR.innerHTML = "clear filter";
+      //   reset_LUGAR.className = "filterlabel";
+      // div_LUGAR.appendChild(reset_LUGAR);
+
+      lab_LUGAR.onclick = function () {
+        // Reestablec();
+        var options = document.getElementById("sel_LUGAR").options;
+        for (var i = 0; i < options.length; i++) {
+          options[i].selected = false;
+        }
+        // Reestablec();
+        // setTimeout(() => {
+        //   filterFunc();
+        // }, 2000);
+        filterFunc();
+      };
+
+      document
+        .getElementById("menu")
+        .appendChild(document.createElement("div"));
+      var div_BARRIO = document.createElement("div");
+      div_BARRIO.id = "div_BARRIO";
+      div_BARRIO.className = "filterselect";
+      document.getElementById("menu").appendChild(div_BARRIO);
+      sel_BARRIO = document.createElement("select");
+      sel_BARRIO.multiple = true;
+      sel_BARRIO.size = 3;
+      sel_BARRIO.id = "sel_BARRIO";
+      var BARRIO_options_str = "<option value='' unselected>Ninguno</option>";
+      sel_BARRIO.onchange = function () {
+        filterFunc();
+      };
+      BARRIO_options_str += '<option value="Alejandrí­a">Alejandrí­a</option>';
+      BARRIO_options_str += '<option value="Aranjuez">Aranjuez</option>';
+      BARRIO_options_str += '<option value="Astorga">Astorga</option>';
+      BARRIO_options_str +=
+        '<option value="Barrio Colón">Barrio Colón</option>';
+      BARRIO_options_str += '<option value="Belencito">Belencito</option>';
+      BARRIO_options_str += '<option value="Boston">Boston</option>';
+      BARRIO_options_str +=
+        '<option value="Buenos Aires">Buenos Aires</option>';
+      BARRIO_options_str +=
+        '<option value="Campo Valdés No.2">Campo Valdés No.2</option>';
+      BARRIO_options_str +=
+        '<option value="Centro Administrativo">Centro Administrativo</option>';
+      BARRIO_options_str +=
+        '<option value="Cerro Nutibara">Cerro Nutibara</option>';
+      BARRIO_options_str +=
+        '<option value="Ecoparque Cerro El Volador">Ecoparque Cerro El Volador</option>';
+      BARRIO_options_str += '<option value="El Castillo">El Castillo</option>';
+      BARRIO_options_str +=
+        '<option value="El Diamante No.2">El Diamante No.2</option>';
+      BARRIO_options_str += '<option value="El Picacho">El Picacho</option>';
+      BARRIO_options_str += '<option value="El Poblado">El Poblado</option>';
+      BARRIO_options_str +=
+        '<option value="Florida Nueva">Florida Nueva</option>';
+      BARRIO_options_str += '<option value="Guayaquil">Guayaquil</option>';
+      BARRIO_options_str +=
+        '<option value="Jardí­n Botánico">Jardí­n Botánico</option>';
+      BARRIO_options_str +=
+        '<option value="Jesús Nazareno">Jesús Nazareno</option>';
+      BARRIO_options_str +=
+        '<option value="La Alpujarra">La Alpujarra</option>';
+      BARRIO_options_str +=
+        '<option value="La Candelaria">La Candelaria</option>';
+      BARRIO_options_str += '<option value="La Florida">La Florida</option>';
+      BARRIO_options_str +=
+        '<option value="Las Independencias">Las Independencias</option>';
+      BARRIO_options_str += '<option value="Las Palmas">Las Palmas</option>';
+      BARRIO_options_str += '<option value="Los Ángeles">Los Ángeles</option>';
+      BARRIO_options_str += '<option value="Manila">Manila</option>';
+      BARRIO_options_str += '<option value="Moravia">Moravia</option>';
+      BARRIO_options_str += '<option value="Naranjal">Naranjal</option>';
+      BARRIO_options_str +=
+        '<option value="Parque Juan Pablo II">Parque Juan Pablo II</option>';
+      BARRIO_options_str +=
+        '<option value="Parque Norte">Parque Norte</option>';
+      BARRIO_options_str +=
+        '<option value="Piedras Blancas - Matasano">Piedras Blancas - Matasano</option>';
+      BARRIO_options_str += '<option value="Prado">Prado</option>';
+      BARRIO_options_str += '<option value="Robledo">Robledo</option>';
+      BARRIO_options_str += '<option value="Rosales">Rosales</option>';
+      BARRIO_options_str += '<option value="San Benito">San Benito</option>';
+      BARRIO_options_str += '<option value="San Pedro">San Pedro</option>';
+      BARRIO_options_str += '<option value="Santa Fé">Santa Fé</option>';
+      BARRIO_options_str +=
+        '<option value="Santo Domingo Savio No.1">Santo Domingo Savio No.1</option>';
+      BARRIO_options_str += '<option value="Sevilla">Sevilla</option>';
+      BARRIO_options_str +=
+        '<option value="Suramericana">Suramericana</option>';
+      BARRIO_options_str +=
+        '<option value="U.D. Atanasio Girardot">U.D. Atanasio Girardot</option>';
+      BARRIO_options_str +=
+        '<option value="Villa Carlota">Villa Carlota</option>';
+      BARRIO_options_str += '<option value="Villa Nueva">Villa Nueva</option>';
+      var lab_BARRIO = document.createElement("div");
+      //   var reset_BARRIO = document.createElement("div");
+      lab_BARRIO.innerHTML = "BARRIO &nbsp;&nbsp;&nbsp(Reiniciar-filtro)";
+      lab_BARRIO.className = "filterlabel";
+      //   reset_BARRIO.innerHTML = "clear filter";
+      //   reset_BARRIO.className = "filterlabel";
+      div_BARRIO.appendChild(lab_BARRIO);
+      //   div_BARRIO.appendChild(reset_BARRIO);
+      sel_BARRIO.innerHTML = BARRIO_options_str;
+      div_BARRIO.appendChild(sel_BARRIO);
+
+      lab_BARRIO.onclick = function () {
+        var options = document.getElementById("sel_BARRIO").options;
+        for (var i = 0; i < options.length; i++) {
+          options[i].selected = false;
+        }
+        filterFunc();
+      };
+      document
+        .getElementById("menu")
+        .appendChild(document.createElement("div"));
+      var div_IMPERDIBLE = document.createElement("div");
+      div_IMPERDIBLE.id = "div_IMPERDIBLE";
+      div_IMPERDIBLE.className = "filterselect";
+      document.getElementById("menu").appendChild(div_IMPERDIBLE);
+      sel_IMPERDIBLE = document.createElement("select");
+      sel_IMPERDIBLE.multiple = true;
+      sel_IMPERDIBLE.size = 2;
+      sel_IMPERDIBLE.id = "sel_IMPERDIBLE";
+
+      var reset_IMPERDIBLE = document.createElement("div");
+      //   reset_IMPERDIBLE.innerHTML = "clear filter";
+      //   reset_IMPERDIBLE.className = "filterlabel";
+
+      var lab_IMPERDIBLE = document.createElement("div");
+      lab_IMPERDIBLE.innerHTML =
+        "IMPERDIBLE &nbsp;&nbsp;&nbsp(Reiniciar-filtro)";
+      lab_IMPERDIBLE.className = "filterlabel";
+      div_IMPERDIBLE.appendChild(lab_IMPERDIBLE);
+      var IMPERDIBLE_options_str =
+        "<option value='' unselected>Ninguno</option>";
+      sel_IMPERDIBLE.onchange = function () {
+        filterFunc();
+      };
+      IMPERDIBLE_options_str += '<option value="NO">NO</option>';
+      IMPERDIBLE_options_str += '<option value="SI">SI</option>';
+      sel_IMPERDIBLE.innerHTML = IMPERDIBLE_options_str;
+      div_IMPERDIBLE.appendChild(sel_IMPERDIBLE);
+      //   div_IMPERDIBLE.appendChild(reset_IMPERDIBLE);
+
+      lab_IMPERDIBLE.onclick = function () {
+        var options = document.getElementById("sel_IMPERDIBLE").options;
+        for (var i = 0; i < options.length; i++) {
+          options[i].selected = false;
+        }
+        filterFunc();
+      };
+
+      document
+        .getElementById("menu")
+        .appendChild(document.createElement("div"));
+      var div_TIPO = document.createElement("div");
+      div_TIPO.id = "div_TIPO";
+      div_TIPO.className = "filterselect";
+      document.getElementById("menu").appendChild(div_TIPO);
+      sel_TIPO = document.createElement("select");
+      sel_TIPO.multiple = true;
+      sel_TIPO.size = 3;
+      sel_TIPO.id = "sel_TIPO";
+      var TIPO_options_str = "<option value='' unselected>Ninguno</option>";
+      sel_TIPO.onchange = function () {
+        filterFunc();
+      };
+      TIPO_options_str +=
+        '<option value="Aeropuerto de pasajeros">Aeropuerto de pasajeros</option>';
+      TIPO_options_str +=
+        '<option value="Avenida y calle">Avenida y calle</option>';
+      TIPO_options_str += '<option value="Basí­lica">Basí­lica</option>';
+      TIPO_options_str += '<option value="Biblioteca">Biblioteca</option>';
+      TIPO_options_str += '<option value="Catedral">Catedral</option>';
+      TIPO_options_str += '<option value="Cementerio">Cementerio</option>';
+      TIPO_options_str +=
+        '<option value="Centro administrativo">Centro administrativo</option>';
+      TIPO_options_str +=
+        '<option value="Centro de formación cultural">Centro de formación cultural</option>';
+      TIPO_options_str += '<option value="Cerro">Cerro</option>';
+      TIPO_options_str += '<option value="Claustro">Claustro</option>';
+      TIPO_options_str += '<option value="Convento">Convento</option>';
+      TIPO_options_str += '<option value="Escultura">Escultura</option>';
+      TIPO_options_str +=
+        '<option value="Estación de ferrocarril">Estación de ferrocarril</option>';
+      TIPO_options_str += '<option value="Estadio">Estadio</option>';
+      TIPO_options_str += '<option value="Estatua">Estatua</option>';
+      TIPO_options_str += '<option value="Fuente">Fuente</option>';
+      TIPO_options_str += '<option value="Iglesia">Iglesia</option>';
+      TIPO_options_str +=
+        '<option value="Jardí­n botánico">Jardí­n botánico</option>';
+      TIPO_options_str += '<option value="Monumento">Monumento</option>';
+      TIPO_options_str += '<option value="Museo">Museo</option>';
+      TIPO_options_str += '<option value="Otro">Otro</option>';
+      TIPO_options_str +=
+        '<option value="Parque temático y recreativo">Parque temático y recreativo</option>';
+      TIPO_options_str +=
+        '<option value="Parque urbano">Parque urbano</option>';
+      TIPO_options_str += '<option value="Planetario">Planetario</option>';
+      TIPO_options_str += '<option value="Plaza">Plaza</option>';
+      TIPO_options_str +=
+        '<option value="Plaza de mercado">Plaza de mercado</option>';
+      TIPO_options_str +=
+        '<option value="Plaza de toros">Plaza de toros</option>';
+      TIPO_options_str +=
+        '<option value="Sala múltiple">Sala múltiple</option>';
+      TIPO_options_str +=
+        '<option value="Sector urbano o rural de interés">Sector urbano o rural de interés</option>';
+      TIPO_options_str += '<option value="Teatro">Teatro</option>';
+      TIPO_options_str +=
+        '<option value="Áreas con declaratorias departamentales">Áreas con declaratorias departamentales</option>';
+
+      var lab_TIPO = document.createElement("div");
+      //   var reset_TIPO = document.createElement("div");
+      lab_TIPO.innerHTML = "TIPO &nbsp;&nbsp;&nbsp(Reiniciar-filtro)";
+      lab_TIPO.className = "filterlabel";
+      //   reset_TIPO.innerHTML = "clear filter";
+      //   reset_TIPO.className = "filterlabel";
+      div_TIPO.appendChild(lab_TIPO);
+      //   div_TIPO.appendChild(reset_TIPO);
+      sel_TIPO.innerHTML = TIPO_options_str;
+      div_TIPO.appendChild(sel_TIPO);
+
+      lab_TIPO.onclick = function () {
+        var options = document.getElementById("sel_TIPO").options;
+        for (var i = 0; i < options.length; i++) {
+          options[i].selected = false;
+        }
+        filterFunc();
+      };
+
+      var resetAll = document.createElement("div");
+      resetAll.innerHTML = "Resetear todos";
+      resetAll.className = "filterlabel";
+      div_TIPO.appendChild(resetAll);
+
+      resetAll.onclick = function () {
+        let sels = [
+          "sel_TIPO",
+          "sel_LUGAR",
+          "sel_NOMBRE",
+          "sel_BARRIO",
+          "sel_IMPERDIBLE",
+        ];
+        sels.map((opt) => {
+          let options = document.getElementById(opt).options;
+          for (var i = 0; i < options.length; i++) {
+            options[i].selected = false;
+          }
+          filterFunc();
+        });
+      };
+
+      resetLabels([layer_COMUNASYCORREGIMIENTOS_2]);
+      map.on("zoomend", function () {
+        resetLabels([layer_COMUNASYCORREGIMIENTOS_2]);
+      });
+      map.on("layeradd", function () {
+        resetLabels([layer_COMUNASYCORREGIMIENTOS_2]);
+      });
+      map.on("layerremove", function () {
+        resetLabels([layer_COMUNASYCORREGIMIENTOS_2]);
+      });
+      document
+        .querySelectorAll("input.leaflet-control-layers-selector")[2]
+        .click();
+    </script>
+  </body>
+</html>
