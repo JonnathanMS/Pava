@@ -12,6 +12,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import ProductListPage from "./pages/ProductListPage";
+import CategoryListPage from "./pages/CategoryListPage";
 import HomePage from "./pages/HomePage";
 
 const router = createBrowserRouter(
@@ -19,6 +20,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />}>
       <Route index={true} path="/" element={<HomePage />} />
         <Route path="products" element={<ProductListPage />} />
+        <Route path="categories" element={<CategoryListPage />} />
     </Route>
   )
 );

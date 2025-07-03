@@ -1,4 +1,4 @@
-![Vista de administración de productos](frontend/public/images/adminProductos.png)
+![Vista de administración de productos](frontend/public/images/adminp.png)
 
 
 1. Instalar el proyecto desde github o descargar la carpeta.

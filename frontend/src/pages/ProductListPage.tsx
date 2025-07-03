@@ -21,7 +21,6 @@ export default function ProductListPage() {
   const navigate = useNavigate();
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
-  const page = Number(sp.get("page") || 1);
 
   // const { data, isLoading, error, refetch } = useGetAdminProdcutsQuery(page);
   const { data, isLoading, error, refetch } = useGetProductsQuery();
@@ -64,7 +63,7 @@ export default function ProductListPage() {
     <div>
       <Row>
         <Col>
-          <h1>{lm === "en" ? "Productos" : "Products"}</h1>
+          <h1>{lm === "en" ? "Administrar Productos" : "Manage Products"}</h1>
         </Col>
         <Col className="col text-end">
           <div>
@@ -101,7 +100,7 @@ export default function ProductListPage() {
                   <td>{product.id}</td>
                   <td>{lm==="en"?product.name.split("-")[0]:product.name.split("-")[1]}</td>
                   <td>{product.price}</td>
-                  <td>{product.category_id}</td>
+                  <td>{product.category.name}</td>
                   <td>{product.description}</td>
                   <td>
                     <Button

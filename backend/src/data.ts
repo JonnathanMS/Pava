@@ -22,13 +22,13 @@ export const products = [
       {
         name: 'Motor electrico',
         description: 'Motor electrico de 12V',
-        price: 19.99,
+        price: 20000,
         category_id: 2,
       },
       {
         name: 'Tornillo de acero inoxidable',
         description: 'de alta resistencia',
-        price: 9.99,
+        price: 350,
         category_id: 3,
       },
 ];

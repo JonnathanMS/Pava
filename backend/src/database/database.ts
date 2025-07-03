@@ -2,11 +2,15 @@ import { Sequelize } from 'sequelize-typescript';
 import { Dialect } from 'sequelize';
 import { Category } from '../models/categorieModel';
 import { Product } from '../models/productModel';
+import dotenv from 'dotenv';
 
-const DBNAME = process.env.DBNAME || 'pavadb';
+
+dotenv.config();
+
+const DBNAME = process.env.DBNAME || 'pavadb'; 
 const DBUSER = process.env.DBUSER || 'root';
 const DBHOST = process.env.DBHOST || 'localhost';
-const DBPASSWORD = process.env.DBPASSWORD || 'password123';
+const DBPASSWORD = process.env.DBPASSWORD || 'password';
 const dbDriver: Dialect = 'mysql';
 
 // Inicialización de sequelize 

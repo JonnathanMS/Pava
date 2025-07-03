@@ -165,10 +165,10 @@ function App() {
                 {lm === "en" ? "Categorías" : "Categories"}
               </Link>
               <Link className="nav-link header-link p-1 px-3" to={`products`}>
-                {lm === "en" ? "Generar Producto" : "Generate Product"}
+                {lm === "en" ? "Administrar Producto" : "Generate Product"}
               </Link>
-              <Link className="nav-link header-link p-1 px-3" to={`products`}>
-                {lm === "en" ? "Generar Categoria" : "Generate Category"}
+              <Link className="nav-link header-link p-1 px-3" to={`categories`}>
+                {lm === "en" ? "Administrar Categoria" : "Generate Category"}
               </Link>
               <div
                 className="developer d-none d-lg-inline"
