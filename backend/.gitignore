@@ -1,0 +1,12 @@
+
+.env
+# compiled output
+/build
+/dist
+/tmp
+
+# dependencies
+/node_modules
+
+# profiling files
+chrome-profiler-events*.json
