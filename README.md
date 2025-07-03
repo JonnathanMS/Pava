@@ -1,3 +1,6 @@
+![Vista de administración de productos](frontend/public/images/adminProductos.png)
+
+
 1. Instalar el proyecto desde github o descargar la carpeta.
 
 2. Ejecutar el servicio de sql (por ejemplo Workbench) y editar el archivo .env.example con
@@ -18,6 +21,13 @@ los nuevos valores, luego cambar el nombre a .env
 8. Luego ejecutar npm run dev
 
 9. ejecutar http://localhost:5001/api/seed  para llenar la base de datos con productos y categorias.
+
+
+LISTA DE CATEGORIAS:
+![Vista de categorias](frontend/public/images/categorias.png)
+
+LISTA DE PRODUCTOS:
+![Vista de categorias](frontend/public/images/categorias.png)
 
 
 En el backend los endpoints son:
