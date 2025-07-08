@@ -6,7 +6,7 @@
 2. Ejecutar el servicio de sql (por ejemplo Workbench) y editar el archivo .env.example con
 los nuevos valores, luego cambar el nombre a .env
 
-++ Ejecutar el sql del archivo pava.sql en la consola del servicio sql o gestor de base de datos.
+++ Ejecutar el sql del archivo pava.sql que esta en la carpeta backend, en la consola del servicio sql o gestor de base de datos.
 
 3. Habiendo ingresado al proyecto ejecutar desde la terminal cd backend
 
@@ -20,7 +20,7 @@ los nuevos valores, luego cambar el nombre a .env
 
 8. Luego ejecutar npm run dev
 
-9. ejecutar http://localhost:5001/api/seed  para llenar la base de datos con productos y categorias.
+9. ejecutar http://localhost:5001/api/seed  en el navegador o en postman(get) para llenar la base de datos con productos y categorias.
 
 
 LISTA DE CATEGORIAS:
